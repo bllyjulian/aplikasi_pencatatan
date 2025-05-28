@@ -98,7 +98,7 @@
       let { data, error } = await supabaseClient
         .from('penjualan')
         .select('*')
-        .order('waktu_input', { ascending: true });
+        .order('waktu_input', { ascending: false });
 
       if (filterTanggal.value) {
         const selectedDate = new Date(filterTanggal.value);
@@ -106,6 +106,9 @@
           const itemDate = new Date(item.waktu_input);
           return itemDate.toDateString() === selectedDate.toDateString();
         });
+
+        // Urutkan ulang secara eksplisit
+        data.sort((a, b) => new Date(b.waktu_input) - new Date(a.waktu_input));
       }
 
       tabelData.innerHTML = '';
@@ -143,9 +146,10 @@
       let waktu_input;
 
       if (filterTanggal.value) {
-        const t = new Date(filterTanggal.value);
-        t.setHours(0, 0, 0, 0);
-        waktu_input = t.toISOString();
+        const datePart = new Date(filterTanggal.value);
+        const now = new Date();
+        datePart.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+        waktu_input = datePart.toISOString();
       } else {
         waktu_input = new Date().toISOString();
       }
