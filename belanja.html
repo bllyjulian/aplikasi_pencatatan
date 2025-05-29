@@ -16,7 +16,10 @@
           <a class="nav-link" href="index.html">Penjualan</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="belanja.html">Belanja</a>
+          <a class="nav-link" href="toko.html">Toko</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Belanja</a>
         </li>
       </ul>
     </nav>
@@ -87,6 +90,7 @@
   </div>
 
   <!-- Supabase & Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -158,12 +162,27 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     filterTanggal.addEventListener('change', tampilkanData);
 
+
     async function hapusData(id) {
-      if (confirm('Hapus data ini?')) {
-        const { error } = await supabaseClient.from('belanja').delete().eq('id', id);
-        if (!error) tampilkanData();
-      }
+  const result = await Swal.fire({
+    title: 'Yakin mau hapus?',
+    text: 'Data yang dihapus tidak bisa dikembalikan!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Ya, hapus!',
+    cancelButtonText: 'Batal',
+  });
+
+  if (result.isConfirmed) {
+    const { error } = await supabaseClient.from('belanja').delete().eq('id', id);
+    if (!error) {
+      Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success');
+      tampilkanData();
+    } else {
+      Swal.fire('Gagal!', 'Gagal menghapus data: ' + error.message, 'error');
     }
+  }
+}
 
     window.bukaModalEdit = (id, nama, harga) => {
       document.getElementById('edit-id').value = id;
