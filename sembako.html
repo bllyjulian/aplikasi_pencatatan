@@ -11,21 +11,21 @@
   <div class="container">
     <nav class="mb-4">
         <ul class="nav nav-pills">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Penjualan</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Toko</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="sembako.html">Sembako</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="belanja.html">Belanja</a>
-          </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Penjualan</a>
+              </li>
+              <li class="nav-item c">
+                <a class="nav-link" href="toko.html">Toko</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="sembako.html">Sembako</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="belanja.html">Belanja</a>
+              </li>
         </ul>
       </nav>
-    <h2 class="mb-4">Toko Ririn Jaya</h2>
+    <h2 class="mb-4">sembako Ririn Jaya</h2>
     <!-- Form Input -->
     <form id="formInput" class="row g-3 mb-4" autocomplete="off">
       <div class="col-md-5">
@@ -112,7 +112,7 @@
 
     async function tampilkanData() {
       let { data, error } = await supabaseClient
-        .from('toko')
+        .from('sembako')
         .select('*')
         .order('waktu_input', { ascending: false });
 
@@ -176,7 +176,7 @@
       }
 
       const { error } = await supabaseClient
-        .from('toko')
+        .from('sembako')
         .insert([{ nama_barang: nama, harga, waktu_input, status_pembayaran: 'sudah' }]);
 
       if (!error) {
@@ -201,7 +201,7 @@
   });
 
   if (result.isConfirmed) {
-    const { error } = await supabaseClient.from('toko').delete().eq('id', id);
+    const { error } = await supabaseClient.from('sembako').delete().eq('id', id);
     if (!error) {
       Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success');
       tampilkanData();
@@ -231,7 +231,7 @@
       }
 
       const { error } = await supabaseClient
-        .from('toko')
+        .from('sembako')
         .update({ nama_barang: nama, harga, status_pembayaran: status })
         .eq('id', id);
 
