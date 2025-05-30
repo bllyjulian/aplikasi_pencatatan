@@ -205,7 +205,7 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       if (!nama || isNaN(harga)) return alert('Isi semua field.');
 
       const { error } = await supabaseClient
-        .from('belanja')
+        .from('belanjasembako')
         .update({ nama_barang: nama, harga })
         .eq('id', id);
 
